@@ -18,12 +18,13 @@ const { q, nombre, apikey} = req.query;
 
 const usersPost = ( req, res = response ) => { 
 
-const body = req.body;
+const { nombre, id } = req.body;
 
       res.json( {
 
           msg:"post api- By controller",
-	  body
+	  nombre,
+	  id
           } )
      }
 
