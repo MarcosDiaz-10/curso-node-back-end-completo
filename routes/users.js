@@ -24,11 +24,10 @@ const router = Router();
 
 
     router.put('/:id', [
-	check('id', 'No es un ID valido').isMongoId(),
-	check('id').custom( usuarioValidator ),
-        check('rol').custom( rolValidator ),
-	check('correo', 'El correo ingresado no es valido').isEmail(),
-	check('correo').custom( emailValidator ),
+	    check('id', 'No es un ID valido').isMongoId(),
+	    check('id').custom( usuarioValidator ),
+      check('rol').custom( rolValidator ),
+	    check('correo', 'El correo ingresado no es valido').isEmail(),
       validarCampos
     ], usersPut )
 
@@ -36,7 +35,13 @@ const router = Router();
     router.patch('/', usersPatch )
 
 
-    router.delete('/', usersDelete )
+    router.delete('/:id',[
+
+      check('id', 'No es un ID valido').isMongoId(),
+	    check('id').custom( usuarioValidator ),
+      validarCampos
+
+    ], usersDelete )
 
  
 

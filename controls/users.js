@@ -7,16 +7,21 @@ const Usuario = require('../models/usuario');
 
 const usersGet = async( req = request, res = response ) => { 
 
-const { limite = 5, desde = 0} = req.query;
-
-const usuarios = await Usuario.find()
-      .skip( Number(desde) )
-      .limit(Number(limite))
-
-const total = await Usuario.countDocument();
+      const { limite = 5, desde = 0} = req.query;
+      const query = { estado: true }
 
 
-res.json( { total, usuarios } )
+      const [ total, usuarios ] = await Promise.all([
+            
+            Usuario.countDocuments( query ),
+            Usuario.find( query )
+                  .skip( Number(desde) ) 
+                  .limit(Number(limite))
+      ]);
+
+
+
+      res.json( { total, usuarios } )
 
 }
 
@@ -24,24 +29,25 @@ res.json( { total, usuarios } )
 
 const usersPost = async ( req, res = response ) => { 
 
-const { nombre, correo, contraseña, rol } = req.body;
+      const { nombre, correo, contraseña, rol } = req.body;
 
-const usuario = new Usuario( { nombre, correo, contraseña, rol } );
-
-
-// Encriptar la contraseña
-
-const salt = bcryptjs.genSaltSync()
-
-usuario.contraseña = bcryptjs.hashSync( contraseña, salt );
-
-//Guardar en DB
-await usuario.save();
+      
+      const usuario = new Usuario( { nombre, correo, contraseña, rol } );
 
 
-      res.json( {
-	  usuario 
-          } )
+      // Encriptar la contraseña
+
+      const salt = bcryptjs.genSaltSync()
+
+      usuario.contraseña = bcryptjs.hashSync( contraseña, salt );
+
+      //Guardar en DB
+      await usuario.save();
+
+
+            res.json( {
+            usuario 
+            } )
      }
 
 const usersPut = async( req, res = response ) => { 
@@ -60,9 +66,9 @@ const usersPut = async( req, res = response ) => {
       }
 
 
-const usuario = await Usuario.findByIdAndUpdate(id, resto) 
-  
-      res.json( usuario )
+      const usuario = await Usuario.findByIdAndUpdate(id, resto) 
+      
+            res.json( usuario )
      }
 
 const usersPatch = ( req, res = response ) => { 
@@ -74,11 +80,18 @@ const usersPatch = ( req, res = response ) => {
           } )
      }
 
-const usersDelete = ( req, res = response ) => { 
+const usersDelete = async( req, res = response ) => { 
+
+      const { id } = req.params;
+
+      //Borrar fisicamente de la base de datos
+
+      const usuario = await Usuario.findByIdAndUpdate( id, {estado: false });
+
 
       res.json( {
 
-          msg:"delete api- By controller"
+            usuario
 
           } )
      }
