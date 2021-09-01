@@ -25,6 +25,23 @@ const usersGet = async( req = request, res = response ) => {
 
 }
 
+const usersGetById = async( req, res = response ) => {
+
+      const { id } = req.params;
+
+
+      const usuario = await Usuario.findById( id, query )
+
+      if( !usuario.estado ){
+            res.status( 400 ).json({
+                  msg: `El usuario con id: ${ id } no existe`
+            })
+      }
+
+      res.json( usuario )
+
+}
+
 
 
 const usersPost = async ( req, res = response ) => { 
@@ -100,6 +117,7 @@ const usersDelete = async( req, res = response ) => {
 module.exports = {
 
     usersGet,
+    usersGetById,
     usersPost,
     usersPut,
     usersPatch,

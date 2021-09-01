@@ -1,4 +1,5 @@
-const { request, response} = require('express')
+const { request, response} = require('express');
+const { Rol } = require('../models');
 
 const validarRolAdmin = ( req = request, res = response, next) => {
 
@@ -48,9 +49,26 @@ const tieneRol = ( ...roles ) => {
 }
 
 
+const rolTokenValido = async( req, res = response, next ) => {
+
+    const { rol } = req.usuarioAuth;
+
+    const existeRol = await Rol.findOne({ rol });
+
+    if( !existeRol ){
+        res.status( 400 ).json({
+            msg: `El rol ${ rol } no existe`
+        });
+    }
+
+    next();
+
+}
+
 
 
 module.exports = {
     validarRolAdmin,
-    tieneRol
+    tieneRol,
+    rolTokenValido
 }
