@@ -2,3 +2,8 @@
 node_modules/
 
 .env
+
+uploads/usuarios/**.*
+uploads/productos/**.*
+uploads/categoria/**.*
+

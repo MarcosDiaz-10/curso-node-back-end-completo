@@ -62,12 +62,26 @@ if( !existeId ){
 
 }
 
+const coleccionesPermitidas = ( coleccion = '', colecciones = [] ) => {
+
+  if( !colecciones.includes( coleccion ) ){
+
+    throw new Error ( `La coleccion no esta dentro de la siguiente lista ${ colecciones }`)
+
+  }
+
+  return true
+
+}
+
+
 
 module.exports = {
     emailValidator,
     rolValidator,
     usuarioValidator,
     categoriaValidator,
-    productoValidator
+    productoValidator,
+    coleccionesPermitidas
 
 }
