@@ -88,14 +88,6 @@ const usersPut = async( req, res = response ) => {
             res.json( usuario )
      }
 
-const usersPatch = ( req, res = response ) => { 
-
-      res.json( {
-
-          msg:"patch api- By controller"
-
-          } )
-     }
 
 const usersDelete = async( req, res = response ) => { 
 
@@ -120,7 +112,6 @@ module.exports = {
     usersGetById,
     usersPost,
     usersPut,
-    usersPatch,
     usersDelete
 
 } 
