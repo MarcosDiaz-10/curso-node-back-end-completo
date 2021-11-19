@@ -1,6 +1,6 @@
 const url = ( window.location.hostname.includes('localhost') )
             ? 'http://localhost:8080/api/users'
-            : 'https://restserver-curso-fher.herokuapp.com/api/users';
+            : 'https://curso-node-restserver-md.herokuapp.com/api/users';
 
 
 const miFormulario = document.querySelector('form');

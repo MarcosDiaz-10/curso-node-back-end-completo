@@ -4,7 +4,7 @@ const miFormulario = document.querySelector('form');
 
 const url = ( window.location.hostname.includes('localhost') )
             ? 'http://localhost:8080/api/auth/'
-            : 'https://restserver-curso-fher.herokuapp.com/api/auth/';
+            : 'https://curso-node-restserver-md.herokuapp.com/api/auth/';
 
 
 
@@ -17,7 +17,7 @@ miFormulario.addEventListener('submit', ev => {
             formData[el.name] = el.value
     }
 
-    fetch( url + 'login', {
+    fetch( url + 'login' , {
         method: 'POST',
         body: JSON.stringify( formData ),
         headers: { 'Content-Type': 'application/json' }
